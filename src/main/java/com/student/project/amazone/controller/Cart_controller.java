@@ -11,11 +11,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.student.project.amazone.CLIENT_URL.CLIENT_1;
 import static java.lang.Long.valueOf;
 
 @RestController
 @RequestMapping("/api/v1/cart")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = CLIENT_1)
 @RequiredArgsConstructor
 public class Cart_controller {
 

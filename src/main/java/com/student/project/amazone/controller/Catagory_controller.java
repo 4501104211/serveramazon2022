@@ -1,23 +1,20 @@
 package com.student.project.amazone.controller;
 
 import com.student.project.amazone.entity.Catagory_model;
-
 import com.student.project.amazone.service.Catagory_service;
-
 import lombok.RequiredArgsConstructor;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.student.project.amazone.CLIENT_URL.CLIENT_1;
+
 @RestController
 @RequestMapping("/api/v1/catagory/")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = CLIENT_1)
 public class Catagory_controller {
 
     private final Catagory_service service;

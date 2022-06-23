@@ -7,21 +7,21 @@ import com.student.project.amazone.entity.Banner_model;
 import com.student.project.amazone.service.Banner_service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-
 import java.util.List;
 import java.util.Random;
+
+import static com.student.project.amazone.CLIENT_URL.CLIENT_1;
 
 @RestController
 @RequestMapping("/api/v2/banner")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:9111")
+@CrossOrigin(origins = CLIENT_1)
 @Slf4j
 public class Banner_controller {
     @Autowired

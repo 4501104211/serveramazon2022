@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+import static com.student.project.amazone.CLIENT_URL.CLIENT_1;
+
 @RestController
 @RequestMapping("/api/v1/order")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = CLIENT_1)
 
 public class Order_controller extends AbstractControllerOrder {
 

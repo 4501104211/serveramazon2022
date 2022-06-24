@@ -2,24 +2,22 @@ package com.student.project.amazone.Admin_controller;
 
 
 import com.student.project.amazone.entity.Users_model;
-import com.student.project.amazone.entity.cartModel;
 import com.student.project.amazone.service.Users_service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.student.project.amazone.CLIENT_URL.CLIENT_2;
 @RestController
 @RequestMapping("/api/v2/user/")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:9111")
+@CrossOrigin(origins = CLIENT_2)
 public class Users_controller_mn {
     @Autowired
     private final Users_service service;

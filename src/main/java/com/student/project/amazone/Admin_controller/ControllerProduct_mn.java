@@ -16,11 +16,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-@RestController
+import static com.student.project.amazone.CLIENT_URL.CLIENT_2;
 
+@RestController
 @RequestMapping("/api/v2/product/")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:9111")
+@CrossOrigin(origins = CLIENT_2)
 public class
 ControllerProduct_mn {
 

@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.student.project.amazone.CLIENT_URL.CLIENT_2;
 @RestController
 @RequestMapping("/api/v2/catagory/")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:9111")
+@CrossOrigin(origins = CLIENT_2)
 public class Catagory_controller_mn {
     @Autowired
     private final Catagory_service service;

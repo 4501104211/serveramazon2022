@@ -19,7 +19,7 @@ import java.util.Random;
 import static com.student.project.amazone.CLIENT_URL.CLIENT_2;
 
 @RestController
-@RequestMapping("/api/v2/product/")
+@RequestMapping("/api/v2/product")
 @RequiredArgsConstructor
 @CrossOrigin(origins = CLIENT_2)
 public class

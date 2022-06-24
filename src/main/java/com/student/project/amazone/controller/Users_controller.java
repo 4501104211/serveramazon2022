@@ -14,12 +14,10 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.student.project.amazone.CLIENT_URL.CLIENT_1;
-
 @RestController
 @RequestMapping("/api/v1/user/")
 @RequiredArgsConstructor
-@CrossOrigin(origins = CLIENT_1)
+@CrossOrigin(origins = "https://customerui.herokuapp.com")
 public class Users_controller {
     @Autowired
     private final Users_service service;

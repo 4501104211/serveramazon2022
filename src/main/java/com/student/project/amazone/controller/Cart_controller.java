@@ -11,12 +11,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.student.project.amazone.CLIENT_URL.CLIENT_1;
 import static java.lang.Long.valueOf;
 
 @RestController
 @RequestMapping("/api/v1/cart")
-@CrossOrigin(origins = CLIENT_1)
+@CrossOrigin(origins = "https://customerui.herokuapp.com")
 @RequiredArgsConstructor
 public class Cart_controller {
 

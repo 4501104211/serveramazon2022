@@ -11,12 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static com.student.project.amazone.CLIENT_URL.CLIENT_1;
-
 @RestController
 @RequestMapping("/api/v1/citys")
 @RequiredArgsConstructor
-@CrossOrigin(origins = CLIENT_1)
+@CrossOrigin(origins = "https://customerui.herokuapp.com")
 public class VietNamController {
 
     private final VietNam_service service;

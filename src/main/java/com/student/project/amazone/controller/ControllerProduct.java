@@ -14,13 +14,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Optional;
 
-import static com.student.project.amazone.CLIENT_URL.CLIENT_1;
-
 @RestController
 
 @RequestMapping("/api/v1/product/")
 @RequiredArgsConstructor
-@CrossOrigin(origins = CLIENT_1)
+@CrossOrigin(origins = "https://customerui.herokuapp.com")
 public class
 ControllerProduct {
 

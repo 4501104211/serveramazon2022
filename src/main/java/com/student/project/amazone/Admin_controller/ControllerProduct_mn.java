@@ -26,7 +26,7 @@ public class
 ControllerProduct_mn {
 
 
-    ServiceProduct serviceProduct;
+    private final ServiceProduct serviceProduct;
 
 
     private FileStorageService fileStorageService;

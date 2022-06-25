@@ -1,11 +1,5 @@
 package com.student.project.amazone.File.UploadService;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.file.*;
-
 import com.student.project.amazone.File.exception.FileNotFoundException;
 import com.student.project.amazone.File.exception.FileStorageException;
 import com.student.project.amazone.File.property.FileStorageProperties;
@@ -15,6 +9,13 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 @Service
 public class FileStorageService {
@@ -62,6 +63,7 @@ public class FileStorageService {
 
         try {
             // Check if the file's name contains invalid characters
+            fileName = fileName+".png";
             if(fileName.contains("..")) {
                 throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
             }

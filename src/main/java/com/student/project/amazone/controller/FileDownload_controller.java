@@ -20,7 +20,7 @@ import static com.student.project.amazone.CLIENT_URL.CLIENT_1;
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 @CrossOrigin(origins = CLIENT_1)
-public class FileDownloadController {
+public class FileDownload_controller {
 
 
     private static final Path CURRENT_FOLDER = Paths.get(System.getProperty("user.dir"));

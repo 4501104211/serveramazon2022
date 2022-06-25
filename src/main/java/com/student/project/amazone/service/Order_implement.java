@@ -5,13 +5,14 @@ import com.student.project.amazone.dto.Order_modelInfo;
 import com.student.project.amazone.entity.ChartOption;
 import com.student.project.amazone.entity.Order_model;
 import com.student.project.amazone.repo.Order_modelRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class Order_implement implements Order_service {
-
+    @Autowired
     private final Order_modelRepository modelRepository;
 
 

@@ -7,6 +7,7 @@ import com.student.project.amazone.entity.Catagory_model;
 import com.student.project.amazone.entity.Product_model;
 import com.student.project.amazone.service.ServiceProduct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,16 +20,16 @@ import java.util.Random;
 import static com.student.project.amazone.CLIENT_URL.CLIENT_2;
 
 @RestController
-@RequestMapping("/api/v2/product")
+@RequestMapping("/api/v2/product/")
 @RequiredArgsConstructor
 @CrossOrigin(origins = CLIENT_2)
 public class
 ControllerProduct_mn {
 
-
+    @Autowired
     private final ServiceProduct serviceProduct;
 
-
+    @Autowired
     private FileStorageService fileStorageService;
 
     @GetMapping("all")
@@ -51,7 +52,7 @@ ControllerProduct_mn {
         return fileName;
     }
 
-	@PostMapping("/save")
+	@PostMapping("save")
 	public ResponseEntity create(@RequestParam("image") MultipartFile file, @RequestParam("product") String product) throws JsonProcessingException {
 
         String imageName = "product.jpg";
@@ -74,7 +75,7 @@ ControllerProduct_mn {
         return ResponseEntity.ok(serviceProduct.save(emp));
     }
 
-	@PutMapping("/update")
+	@PutMapping("update")
     public ResponseEntity update(@RequestParam("image") MultipartFile file, @RequestParam("product") String product) throws JsonProcessingException {
 
         String imageName = "product.jpg";
@@ -111,7 +112,7 @@ ControllerProduct_mn {
     }
 
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("delete/{id}")
     public ResponseEntity<?> deleteCategory(@PathVariable("id") Long id) {
         serviceProduct.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);

@@ -3,6 +3,7 @@ package com.student.project.amazone.controller;
 import com.student.project.amazone.entity.cartModel;
 import com.student.project.amazone.service.Cart_service;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ import static java.lang.Long.valueOf;
 @CrossOrigin(origins = "https://customerui.herokuapp.com")
 @RequiredArgsConstructor
 public class Cart_controller {
-
+    @Autowired
     private final Cart_service service;
 
     Map<Object, Object> respone = new HashMap<>();

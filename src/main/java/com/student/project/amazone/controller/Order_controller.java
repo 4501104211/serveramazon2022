@@ -6,6 +6,7 @@ import com.student.project.amazone.entity.ChartOption;
 import com.student.project.amazone.entity.Order_model;
 import com.student.project.amazone.service.Order_service;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,7 @@ import java.util.Optional;
 @CrossOrigin(origins = "https://customerui.herokuapp.com")
 
 public class Order_controller extends AbstractControllerOrder {
-
+    @Autowired
     private final Order_service service;
 
     @PostMapping

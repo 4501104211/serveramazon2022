@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 @Transactional
 public class Catagory_implement implements Catagory_service{
-
+    @Autowired
     private final Catagory_modelRespository service;
 
     public Catagory_implement(Catagory_modelRespository service) {

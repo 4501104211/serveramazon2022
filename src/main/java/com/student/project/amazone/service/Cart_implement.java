@@ -4,6 +4,7 @@ import com.student.project.amazone.entity.cartItem;
 import com.student.project.amazone.entity.cartModel;
 import com.student.project.amazone.repo.CartItemDtoRepository;
 import com.student.project.amazone.repo.Cart_modelRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
@@ -17,8 +18,9 @@ import java.util.stream.Collectors;
 @Service
 public class Cart_implement implements Cart_service {
 
-
+    @Autowired
     private final Cart_modelRepository cart_modelRepository;
+    @Autowired
     private final CartItemDtoRepository cartItemDtoRepository;
 
     public Cart_implement(Cart_modelRepository cart_modelRepository, CartItemDtoRepository cartItemDtoRepository) {

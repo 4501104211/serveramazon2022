@@ -16,7 +16,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-
 @Service
 public class FileStorageService {
 
@@ -60,10 +59,11 @@ public class FileStorageService {
 
     public String storeFileBanner(MultipartFile file,String fileName) {
         // Normalize file name
+        String extension = file.getOriginalFilename().split("\\.")[1];
 
         try {
             // Check if the file's name contains invalid characters
-            fileName = fileName+".png";
+            fileName = fileName+extension;
             if(fileName.contains("..")) {
                 throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
             }

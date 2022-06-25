@@ -4,6 +4,7 @@ import com.student.project.amazone.entity.cartItem;
 import com.student.project.amazone.entity.cartModel;
 import com.student.project.amazone.repo.CartItemDtoRepository;
 import com.student.project.amazone.repo.Cart_modelRepository;
+import com.sun.jersey.api.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
@@ -46,11 +47,14 @@ public class Cart_implement implements Cart_service {
         cartModel cartExist = cart_modelRepository.findCart_modelByUserId(userId);
         return cartExist;
     }
-
-
-    public cartItem cartByProductId(Long productId) {
-        cartItem cartExist = cartItemDtoRepository.findByProductId(productId);
-        return cartExist;
+    @Override
+    public cartModel getByUserID(Long userId) {
+        cartModel cartExist = cart_modelRepository.findCart_modelByUserId(userId);
+        if (cartExist != null) {
+            return cartExist;
+        } else {
+            throw new NotFoundException("Không tìm thấy giỏ hàng");
+        }
     }
 
     @Override
@@ -92,7 +96,7 @@ public class Cart_implement implements Cart_service {
             cartModel cartExist = cartByUserId(userId);
             for (int i = 0; i < cartExist.getCartItem().size(); i++) {
                 final cartItem element = cartExist.getCartItem().get(i);
-                if (element.getProductItem().getId().equals(Long.valueOf(itemId))) {
+                if (element.getId().equals(Long.valueOf(itemId))) {
                     fields.forEach((key, value) -> {
                         Field field = ReflectionUtils.findField(cartItem.class, (String) key);
                         field.setAccessible(true);
@@ -102,6 +106,7 @@ public class Cart_implement implements Cart_service {
                             ReflectionUtils.setField(field, element, value);
                         }
                     });
+                    System.out.println(element.getQuantityItemNumber());
                 }
 
                 cartItemDtoRepository.save(element);
@@ -140,7 +145,7 @@ public class Cart_implement implements Cart_service {
 
                 cartModel.getCartItem().removeAll(deletedItems);
             }
-        }catch(Exception ex){
+        } catch (Exception ex) {
             throw new IllegalStateException(ex.getMessage());
         }
     }

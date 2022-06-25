@@ -1,5 +1,6 @@
 package com.student.project.amazone.controller;
 
+import com.student.project.amazone.CLIENT_URL;
 import com.student.project.amazone.entity.Catagory_model;
 import com.student.project.amazone.service.Catagory_service;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/catagory/")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "https://customerui.herokuapp.com")
+@CrossOrigin(origins = CLIENT_URL.CLIENT_1)
 public class Catagory_controller {
     @Autowired
     private final Catagory_service service;

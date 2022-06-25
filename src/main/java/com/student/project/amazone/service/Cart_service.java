@@ -10,6 +10,8 @@ public interface Cart_service {
     cartModel cartByCartId(Long cartId);
     cartModel cartByUserId(Long userId);
 
+    public cartModel getByUserID(Long userId);
+
     cartModel save(cartModel newCart);
 
     cartModel update(String itemId, Long userId, Map<Object, Object> fields);

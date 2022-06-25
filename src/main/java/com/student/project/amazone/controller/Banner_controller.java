@@ -16,10 +16,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.util.List;
 import java.util.Random;
 
+import static com.student.project.amazone.CLIENT_URL.CLIENT_1;
+
 @RestController
 @RequestMapping("/api/v2/banner")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "https://customerui.herokuapp.com")
+@CrossOrigin(origins = CLIENT_1)
 @Slf4j
 public class Banner_controller {
     @Autowired

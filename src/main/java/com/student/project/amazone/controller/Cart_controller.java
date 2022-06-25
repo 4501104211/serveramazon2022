@@ -12,11 +12,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.student.project.amazone.CLIENT_URL.CLIENT_1;
 import static java.lang.Long.valueOf;
 
 @RestController
 @RequestMapping("/api/v1/cart")
-@CrossOrigin(origins = "https://customerui.herokuapp.com")
+@CrossOrigin(origins = CLIENT_1)
 @RequiredArgsConstructor
 public class Cart_controller {
     @Autowired
@@ -29,7 +30,7 @@ public class Cart_controller {
     public ResponseEntity<Map<Object, Object>> userMap(@RequestParam String userId) {
         HttpStatus status = HttpStatus.OK;
         try {
-            cartData = service.cartByUserId(Long.parseLong(userId));
+            cartData = service.getByUserID(Long.parseLong(userId));
             respone.put("cartData", cartData);
             respone.put("isError", false);
             respone.put("message", "Lấy thành công dữ liệu");

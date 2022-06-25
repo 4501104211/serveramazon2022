@@ -29,7 +29,7 @@ ControllerProduct_mn {
     private final ServiceProduct serviceProduct;
 
     private final FileStorageService fileStorageService;
-    @GetMapping("all")
+    @GetMapping("/all")
     public ResponseEntity<List<Product_model>> findAllProduct() {
         List<Product_model> product = serviceProduct.findAll();
         return new ResponseEntity<>(product, HttpStatus.OK);
@@ -98,7 +98,7 @@ ControllerProduct_mn {
         return ResponseEntity.ok(serviceProduct.save(emp));
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Product_model> findById(@PathVariable Long id) {
         Optional<Product_model> product = serviceProduct.findById(id);
         if (!product.isPresent()) {

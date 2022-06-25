@@ -14,9 +14,9 @@ import java.util.List;
 
 @Service
 public class Banner_implement implements Banner_service {
-
+    @Autowired
     private final Banner_modelRepository service;
-
+    @Autowired
     private final FileStorageService filestore;
 
     public Banner_implement(Banner_modelRepository service, FileStorageService filestore) {

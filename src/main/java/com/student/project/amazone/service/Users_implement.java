@@ -4,6 +4,7 @@ import com.student.project.amazone.entity.Users_model;
 import com.student.project.amazone.repo.Users_modelRepository;
 import com.sun.jersey.api.NotFoundException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class Users_implement implements Users_service {
-
+    @Autowired
     public final Users_modelRepository service;
 
     public Users_implement(Users_modelRepository service) {

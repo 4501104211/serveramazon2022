@@ -6,6 +6,7 @@ import com.student.project.amazone.File.UploadService.FileStorageService;
 import com.student.project.amazone.entity.Product_model;
 import com.student.project.amazone.service.ServiceProduct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +23,9 @@ import java.util.Optional;
 public class
 ControllerProduct {
 
-
+    @Autowired
     private final ServiceProduct serviceProduct;
-
+    @Autowired
     private FileStorageService fileStorageService;
 
     @GetMapping("all")
@@ -70,7 +71,7 @@ ControllerProduct {
         return new ResponseEntity<>(cata, HttpStatus.OK);
     }
 
-    @GetMapping("/search")
+    @GetMapping("search")
     public ResponseEntity<List<Product_model>> findByName(@RequestParam("name") String name) {
         List<Product_model> cata = serviceProduct.findByName(name);
         return new ResponseEntity<>(cata, HttpStatus.OK);
@@ -78,13 +79,13 @@ ControllerProduct {
 
     }
 
-    @PutMapping("/update")
+    @PutMapping("update")
     public ResponseEntity<Product_model> updateCategory(@RequestBody Product_model cata) {
         Product_model updateCategory = serviceProduct.save(cata);
         return new ResponseEntity<>(updateCategory, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("delete/{id}")
     public ResponseEntity<?> deleteCategory(@PathVariable("id") Long id) {
         serviceProduct.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);

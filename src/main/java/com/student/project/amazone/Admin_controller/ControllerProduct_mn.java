@@ -2,6 +2,7 @@ package com.student.project.amazone.Admin_controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.student.project.amazone.File.UploadService.FileStorageService;
 import com.student.project.amazone.entity.Catagory_model;
 import com.student.project.amazone.entity.Product_model;
 import com.student.project.amazone.service.ServiceProduct;
@@ -27,7 +28,7 @@ ControllerProduct_mn {
 
     private final ServiceProduct serviceProduct;
 
-
+    private final FileStorageService fileStorageService;
     @GetMapping("all")
     public ResponseEntity<List<Product_model>> findAllProduct() {
         List<Product_model> product = serviceProduct.findAll();

@@ -67,7 +67,7 @@ ControllerProduct_mn {
         Catagory_model cata = new Catagory_model();
 
         cata.setId(emp.getCatagory().getId());
-        emp.setImageurl(imageName);
+//        emp.setImageurl(imageName);
         emp.setCatagory(cata);
         return ResponseEntity.ok(serviceProduct.save(file,emp));
     }
@@ -95,7 +95,7 @@ ControllerProduct_mn {
         cata.setId(emp.getCatagory().getId());
         emp.setImageurl(imageName);
         emp.setCatagory(cata);
-        return ResponseEntity.ok(serviceProduct.save(emp));
+        return ResponseEntity.ok(serviceProduct.save(file,emp));
     }
 
     @GetMapping("/{id}")

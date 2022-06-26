@@ -1,7 +1,5 @@
 package com.student.project.amazone.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.student.project.amazone.File.UploadService.FileStorageService;
 import com.student.project.amazone.entity.Product_model;
 import com.student.project.amazone.service.ServiceProduct;
@@ -10,10 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Optional;
 
 import static com.student.project.amazone.CLIENT_URL.CLIENT_1;
 
@@ -42,24 +38,6 @@ ControllerProduct {
         return new ResponseEntity<>(cata, HttpStatus.OK);
     }
 
-    @PostMapping("save")
-    public ResponseEntity create(@RequestParam(name = "image", required = false) Optional<MultipartFile> file, @RequestParam("product") String product) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        Product_model emp = null;
-        try {
-            emp = objectMapper.readValue(product, Product_model.class);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
-        String imageName = "product.jpg";
-
-        if (file != null) {
-            imageName = fileStorageService.storeFile(file.get());
-        }
-        emp.setImageurl(imageName);
-        return ResponseEntity.ok(serviceProduct.save(emp));
-    }
 
     @GetMapping("category/{id}")
     public ResponseEntity<List<Product_model>> findProductByCateId(@PathVariable("id") String id) {
@@ -80,13 +58,7 @@ ControllerProduct {
 
 
     }
-
-    @PutMapping("update")
-    public ResponseEntity<Product_model> updateCategory(@RequestBody Product_model cata) {
-        Product_model updateCategory = serviceProduct.save(cata);
-        return new ResponseEntity<>(updateCategory, HttpStatus.OK);
-    }
-
+    
     @DeleteMapping("delete/{id}")
     public ResponseEntity<?> deleteCategory(@PathVariable("id") Long id) {
         serviceProduct.deleteById(id);

@@ -29,6 +29,8 @@ public class AmazoneApplication  {
             adminAccount.setAdmin(true);
             adminAccount.setPhone("0335857134");
             adminAccount.setAddress("ABC");
+
+            servicer.updateOrSave(adminAccount);
         };
     }
 

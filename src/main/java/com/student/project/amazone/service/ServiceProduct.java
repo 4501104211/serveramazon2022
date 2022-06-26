@@ -1,22 +1,26 @@
 package com.student.project.amazone.service;
 
 import com.student.project.amazone.entity.Product_model;
+import com.student.project.amazone.repo.FileDBRepository;
 import com.student.project.amazone.repo.Product_modelRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-
+@RequiredArgsConstructor
 public class ServiceProduct {
+
 
     @Autowired
     Product_modelRepository repositoryProduct;
 
+    @Autowired
+    FileDBRepository fileService;
 
     public List<Product_model> findAll() {
         List<Product_model> result = new ArrayList<>();
@@ -40,7 +44,7 @@ public class ServiceProduct {
         return result;
     }
 
-    public Product_model save(MultipartFile file, Product_model stock) {
+    public Product_model save(Product_model stock) {
         return repositoryProduct.save(stock);
     }
 

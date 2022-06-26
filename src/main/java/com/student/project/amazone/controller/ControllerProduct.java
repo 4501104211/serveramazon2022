@@ -58,7 +58,7 @@ ControllerProduct {
 
 
     }
-    
+
     @DeleteMapping("delete/{id}")
     public ResponseEntity<?> deleteCategory(@PathVariable("id") Long id) {
         serviceProduct.deleteById(id);

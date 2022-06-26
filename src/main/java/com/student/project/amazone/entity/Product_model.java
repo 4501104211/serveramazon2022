@@ -23,6 +23,7 @@ public class Product_model {
 
     private String description;
 
+    @OneToOne
     private FileDB imageurl;
     private Long price;
     @Column(name = "created_at")

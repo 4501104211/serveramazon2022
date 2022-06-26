@@ -1,6 +1,7 @@
 package com.student.project.amazone.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.student.project.amazone.dto.FileDB;
 import lombok.Data;
 
@@ -25,6 +26,7 @@ public class Product_model {
 
     @OneToOne
     private FileDB imageurl;
+
     private Long price;
     @Column(name = "created_at")
     @Temporal(value = TemporalType.DATE)
@@ -55,6 +57,7 @@ public class Product_model {
     private Catagory_model catagory;
 
     @ManyToOne(cascade = PERSIST)
+    @JsonIgnore
     @JoinColumn(name = "order_product")
     private orderItem_model orderItemModel;
 

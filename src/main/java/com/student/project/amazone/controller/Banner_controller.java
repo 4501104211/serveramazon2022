@@ -7,7 +7,6 @@ import com.student.project.amazone.entity.Banner_model;
 import com.student.project.amazone.service.Banner_service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,10 +23,10 @@ import static com.student.project.amazone.CLIENT_URL.CLIENT_1;
 @CrossOrigin(origins = CLIENT_1)
 @Slf4j
 public class Banner_controller {
-    @Autowired
+
     private final FileStorageService storeService;
-    @Autowired
     private final Banner_service BannerService;
+    private final FileStorageService fileStorageService;
 
     @GetMapping
     public ResponseEntity<List<Banner_model>> getListFile() {
@@ -70,16 +69,15 @@ public class Banner_controller {
     }
 
     @PutMapping
-    public ResponseEntity<Banner_model> update(@RequestParam("file") MultipartFile file,@RequestParam String fileName){
+    public ResponseEntity<Banner_model> update(@RequestParam("file") MultipartFile file, @RequestParam String fileName) {
 
-
-        storeService.storeFileBanner(file,fileName);
+        storeService.storeFileBanner(file, fileName);
 
         return null;
     }
 
     @DeleteMapping
-    public ResponseEntity<Banner_model> delete(@RequestParam String fileName){
+    public ResponseEntity<Banner_model> delete(@RequestParam String fileName) {
 //        storeService.getFilePath(file, fileName + "." + getType[1]);
         BannerService.delete_file(fileName);
         return null;

@@ -52,11 +52,11 @@ ControllerProduct_mn {
 	@PostMapping("/save")
 	public ResponseEntity create(@RequestParam("image") MultipartFile file, @RequestParam("product") String product) throws JsonProcessingException {
 
-        String imageName = "product.jpg";
-
-        if (file != null) {
-            imageName = fileStorageService.storeFileBanner(file,getRamdom());
-        }
+//        String imageName = "product.jpg";
+//
+//        if (file != null) {
+//            imageName = fileStorageService.storeFileBanner(file,getRamdom());
+//        }
 
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -69,7 +69,7 @@ ControllerProduct_mn {
         cata.setId(emp.getCatagory().getId());
         emp.setImageurl(imageName);
         emp.setCatagory(cata);
-        return ResponseEntity.ok(serviceProduct.save(emp));
+        return ResponseEntity.ok(serviceProduct.save(file,emp));
     }
 
 	@PutMapping("/update")

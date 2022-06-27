@@ -2,36 +2,46 @@ package com.student.project.amazone.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
 
 @Data
 @MappedSuperclass
 public abstract class DateAbstract implements Serializable {
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="Europe/Paris")
+    @JsonFormat(pattern="yyyy-MM-dd ")
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "last_updated")
-    private Date LastUpdated;
+    private ZonedDateTime LastUpdated;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="Europe/Paris")
+    @JsonFormat(pattern="yyyy-MM-dd ")
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "create_at")
-    private Date CreateAt;
+    private ZonedDateTime CreateAt;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="Europe/Paris")
+
     @PrePersist
     public void prePersist() {
         if (CreateAt == null) {
-            this.CreateAt  =  new Date();
+            Instant nowUtc = Instant.now();
+            ZoneId asiaSingapore = ZoneId.of("Asia/Ho_Chi_Minh");
+            ZonedDateTime nowAsiaSingapore = ZonedDateTime.ofInstant(nowUtc, asiaSingapore);
+            this.CreateAt  =  nowAsiaSingapore;
         }
     }
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="Europe/Paris")
+
     @PreUpdate
     public void preUpdate() {
-
-        this.LastUpdated  =  new Date();
+        Instant nowUtc = Instant.now();
+        ZoneId asiaSingapore = ZoneId.of("Asia/Ho_Chi_Minh");
+        ZonedDateTime nowAsiaSingapore = ZonedDateTime.ofInstant(nowUtc, asiaSingapore);
+        this.LastUpdated  =  nowAsiaSingapore;
     }
 }

@@ -12,22 +12,22 @@ import java.util.Date;
 public abstract class DateAbstract implements Serializable {
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "last_updated")
-    private Calendar LastUpdated;
+    private Date LastUpdated;
 
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "create_at")
-    private Calendar CreateAt;
+    private Date CreateAt;
 
     @PrePersist
     public void prePersist() {
         if (CreateAt == null) {
-            CreateAt  = Calendar.getInstance();
+            this.CreateAt  =  new Date();
         }
     }
 
     @PreUpdate
     public void preUpdate() {
         Date date = new Date();;
-        LastUpdated = Calendar.getInstance();
+        this.LastUpdated  =  new Date();
     }
 }

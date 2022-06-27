@@ -41,8 +41,6 @@ public class Cart_implement implements Cart_service {
 
     @Override
     public cartModel cartByUserId(Long userId) {
-        Users_model user = new Users_model();
-        user.setId(userId);
         cartModel cartExist = cart_modelRepository.findCart_modelByUserId(userId);
         return cartExist;
     }

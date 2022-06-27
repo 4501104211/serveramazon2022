@@ -1,6 +1,7 @@
 package com.student.project.amazone.service;
 
 
+import com.student.project.amazone.entity.cartItem;
 import com.student.project.amazone.entity.cartModel;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public interface Cart_service {
 
     public cartModel getByUserID(Long userId);
 
-    cartModel save(cartModel newCart);
+    cartModel save(cartItem newitem,Long userId);
 
     cartModel update(String itemId, Long userId, Map<Object, Object> fields);
 

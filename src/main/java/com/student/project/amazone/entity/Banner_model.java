@@ -14,6 +14,5 @@ public class Banner_model extends DateAbstract {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
-    private String imageName;
     private String link;
 }

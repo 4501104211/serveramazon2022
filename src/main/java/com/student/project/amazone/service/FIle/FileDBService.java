@@ -11,6 +11,7 @@ public interface FileDBService {
 
     FileDB storeImageByte(FileDB file) throws IOException;
 
+    FileDB updateImageFile(String id, MultipartFile file) throws IOException;
 
     Stream<FileDB> getAllImagesFiles();
 

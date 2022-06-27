@@ -53,7 +53,7 @@ public class Banner_controller {
         Banner_model banner = new Banner_model();
 
 
-        banner.setImageName(fileName + "." + getType[1]);
+//        banner.setImageName(fileName + "." + getType[1]);
         banner.setLink("thiendia.com");
 
         BannerService.SaveOrUpdate(banner);

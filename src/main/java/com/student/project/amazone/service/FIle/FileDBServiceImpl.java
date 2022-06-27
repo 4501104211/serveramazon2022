@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Stream;
@@ -23,7 +24,7 @@ public class FileDBServiceImpl implements FileDBService {
     private final FileDBRepository fileDBRepository;
 
 
-    public String getRamdom(){
+    public String getRamdom() {
         int leftLimit = 97; // letter 'a'
         int rightLimit = 122; // letter 'z'
         int targetStringLength = 15;
@@ -37,6 +38,10 @@ public class FileDBServiceImpl implements FileDBService {
         return fileName;
     }
 
+    private String encode(byte[] bytes) {
+        return Base64.getEncoder().encodeToString(bytes);
+    }
+
     @Override
     public FileDB storeImageFile(MultipartFile file) throws IOException {
         FileDB image = new FileDB(getRamdom(), file.getContentType(), file.getBytes());
@@ -44,9 +49,18 @@ public class FileDBServiceImpl implements FileDBService {
     }
 
     @Override
+    public FileDB updateImageFile(String id,MultipartFile file) throws IOException{
+        FileDB dbFile = fileDBRepository.findById(id).get();
+        dbFile.setData(file.getBytes());
+        dbFile.setType(file.getContentType());
+        return storeImageByte(dbFile);
+    }
+
+    @Override
     public FileDB storeImageByte(FileDB file) throws IOException {
         return fileDBRepository.save(file);
     }
+
 
     @Override
     public Stream<FileDB> getAllImagesFiles() {

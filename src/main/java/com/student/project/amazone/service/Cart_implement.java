@@ -1,27 +1,24 @@
 package com.student.project.amazone.service;
 
+import com.student.project.amazone.entity.Users_model;
 import com.student.project.amazone.entity.cartItem;
 import com.student.project.amazone.entity.cartModel;
 import com.student.project.amazone.repo.CartItemDtoRepository;
 import com.student.project.amazone.repo.Cart_modelRepository;
 import com.sun.jersey.api.NotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
-import javax.transaction.Transactional;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Transactional
-@Service
-public class Cart_implement implements Cart_service {
 
-    @Autowired
+@Service
+//@Transactional
+public class Cart_implement implements Cart_service {
     private final Cart_modelRepository cart_modelRepository;
-    @Autowired
     private final CartItemDtoRepository cartItemDtoRepository;
 
     public Cart_implement(Cart_modelRepository cart_modelRepository, CartItemDtoRepository cartItemDtoRepository) {
@@ -44,11 +41,16 @@ public class Cart_implement implements Cart_service {
 
     @Override
     public cartModel cartByUserId(Long userId) {
+        Users_model user = new Users_model();
+        user.setId(userId);
         cartModel cartExist = cart_modelRepository.findCart_modelByUserId(userId);
         return cartExist;
     }
+
     @Override
     public cartModel getByUserID(Long userId) {
+        Users_model user = new Users_model();
+        user.setId(userId);
         cartModel cartExist = cart_modelRepository.findCart_modelByUserId(userId);
         if (cartExist != null) {
             return cartExist;
@@ -58,36 +60,33 @@ public class Cart_implement implements Cart_service {
     }
 
     @Override
-    public cartModel save(cartModel newCart) {
-        try {
-            cartModel cartExist = cartByUserId(newCart.getUserId().getId());
-            if (cartExist != null) {
-                for (int i = 0; i < newCart.getCartItem().size(); i++) {
-                    final cartItem element = newCart.getCartItem().get(i);
-                    cartItem itemInCart = cartExist.getCartItem().stream()
-                            .filter(x -> element.getProductItem().getId().equals(x.getProductItem().getId()))
-                            .findAny()
-                            .orElse(null);
+    public cartModel save(cartItem _newitem, Long userId) {
+        cartModel parentCart = cartByUserId(userId);
 
-                    if (itemInCart != null) {
-                        itemInCart.setQuantityItemNumber(element.getQuantityItemNumber());
-                        itemInCart.setProductPrice(element.getProductPrice());
-                    } else {
-                        cartExist.getCartItem().add(element);
-                    }
-                    Long totalAmount = cartExist.getCartItem().stream().map(cartItem::getProductPrice)
-                            .reduce(0L, Long::sum);
-                    cartExist.setTotalPrice(totalAmount);
-                }
-                return cart_modelRepository.save(cartExist);
+        if (parentCart != null) {
+            cartItem cartitem = parentCart.getCartItem().stream()
+                    .filter(item ->
+                            _newitem.getProductItem().getId().equals(item.getProductItem().getId())
+                    )
+                    .findAny().orElse(null);
+            if (cartitem == null) {
+                parentCart.getCartItem().add(_newitem);
+            } else {
+                cartitem.update();
+                cartItemDtoRepository.save(cartitem);
             }
-            Long totalAmount = newCart.getCartItem().stream().map(cartItem::getProductPrice)
-                    .reduce(0L, Long::sum);
-            newCart.setTotalPrice(totalAmount);
-            return cart_modelRepository.save(newCart);
-        } catch (Exception ex) {
-            throw new IllegalStateException("Lỗi !! Không tìm thấy người dùng có ID là " + newCart.getUserId().getId());
+        } else {
+            parentCart = new cartModel();
+            Users_model user = new Users_model();
+            user.setId(userId);
+
+            parentCart.getCartItem().add(_newitem);
+            parentCart.setUserId(user);
         }
+        Long totalAmount = parentCart.getCartItem().stream().map(cartItem::getProductPrice)
+                .reduce(0L, Long::sum);
+        parentCart.setTotalPrice(totalAmount);
+        return cart_modelRepository.save(parentCart);
     }
 
     @Override
@@ -100,15 +99,11 @@ public class Cart_implement implements Cart_service {
                     fields.forEach((key, value) -> {
                         Field field = ReflectionUtils.findField(cartItem.class, (String) key);
                         field.setAccessible(true);
-                        if (field.getName().equals("productPrice")) {
-                            ReflectionUtils.setField(field, element, Long.parseLong(value.toString()));
-                        } else {
-                            ReflectionUtils.setField(field, element, value);
-                        }
+                        ReflectionUtils.setField(field, element, value);
                     });
-                    System.out.println(element.getQuantityItemNumber());
                 }
-
+                Long productPrice = element.getProductItem().getPrice() * element.getQuantityItemNumber();
+                element.setProductPrice(productPrice);
                 cartItemDtoRepository.save(element);
             }
             Long totalAmount = cartExist.getCartItem().stream().map(cartItem::getProductPrice)

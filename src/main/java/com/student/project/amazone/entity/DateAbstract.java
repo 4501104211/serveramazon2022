@@ -11,24 +11,24 @@ import java.util.Date;
 @Data
 @MappedSuperclass
 public abstract class DateAbstract implements Serializable {
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="yyyy-MM-dd HH:mm:ss", locale = "en_GB")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="Europe/Paris")
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "last_updated")
     private Date LastUpdated;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="yyyy-MM-dd HH:mm:ss", locale = "en_GB")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="Europe/Paris")
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "create_at")
     private Date CreateAt;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="yyyy-MM-dd HH:mm:ss", locale = "en_GB")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="Europe/Paris")
     @PrePersist
     public void prePersist() {
         if (CreateAt == null) {
             this.CreateAt  =  new Date();
         }
     }
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="yyyy-MM-dd HH:mm:ss", locale = "en_GB")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="Europe/Paris")
     @PreUpdate
     public void preUpdate() {
 

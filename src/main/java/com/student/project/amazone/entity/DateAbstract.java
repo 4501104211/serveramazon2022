@@ -21,16 +21,17 @@ public abstract class DateAbstract implements Serializable {
     @Column(name = "create_at")
     private Date CreateAt;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="yyyy-MM-dd HH:mm:ss", locale = "vi_VN")
     @PrePersist
     public void prePersist() {
         if (CreateAt == null) {
             this.CreateAt  =  new Date();
         }
     }
-
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="yyyy-MM-dd HH:mm:ss", locale = "vi_VN")
     @PreUpdate
     public void preUpdate() {
-        Date date = new Date();;
+
         this.LastUpdated  =  new Date();
     }
 }

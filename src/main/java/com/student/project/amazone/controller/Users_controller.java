@@ -3,14 +3,12 @@ package com.student.project.amazone.controller;
 
 import com.student.project.amazone.entity.Users_model;
 import com.student.project.amazone.service.Users_service;
+import com.sun.jersey.api.NotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -84,7 +82,7 @@ public class Users_controller {
     }
 
     @PostMapping("save")
-    public ResponseEntity<Map<Object,Object>> saveUser(@RequestBody Users_model user) {
+    public ResponseEntity<Map<Object, Object>> saveUser(@RequestBody Users_model user) {
         HttpStatus status = HttpStatus.OK;
         System.out.println("Ok");
         try {
@@ -101,12 +99,15 @@ public class Users_controller {
 
     @PutMapping("update/{id}")
     public ResponseEntity<Users_model> UpdateUser(@PathVariable String id, @RequestBody Users_model user) {
-        if (service.findUserById(Long.valueOf(id)) != null) {
+        HttpStatus status = HttpStatus.OK;
+        try {
             user.setId(Long.valueOf(id));
-            service.updateOrSave(service.findUserByName(user.getUsername()));
+            user = service.updateOrSave(user);
+        } catch (NotFoundException ex) {
+            status = HttpStatus.NOT_FOUND;
+            user = null;
         }
 
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/user/save").toUriString());
-        return ResponseEntity.created(uri).body(user);
+        return ResponseEntity.status(status).body(user);
     }
 }

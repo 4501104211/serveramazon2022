@@ -3,7 +3,6 @@ package com.student.project.amazone.service;
 import com.student.project.amazone.entity.Users_model;
 import com.student.project.amazone.repo.Users_modelRepository;
 import com.sun.jersey.api.NotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,9 +65,11 @@ public class Users_implement implements Users_service {
 
     @Override
     public Users_model findUserById(Long id) {
-        if (service.findUserById(id) != null)
+        if (service.findUserById(id) != null){
             return service.findUserById(id);
-        throw new NotFoundException("User not exists");
+        }else {
+            throw new NotFoundException("User not exists");
+        }
     }
 
 

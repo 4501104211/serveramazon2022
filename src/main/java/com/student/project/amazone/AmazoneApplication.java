@@ -1,6 +1,5 @@
 package com.student.project.amazone;
 
-import com.student.project.amazone.entity.Users_model;
 import com.student.project.amazone.service.Users_service;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

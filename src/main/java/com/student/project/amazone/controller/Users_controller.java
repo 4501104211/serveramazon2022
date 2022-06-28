@@ -3,6 +3,7 @@ package com.student.project.amazone.controller;
 
 import com.student.project.amazone.entity.Users_model;
 import com.student.project.amazone.service.Users_service;
+import com.sun.jersey.api.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -101,14 +102,13 @@ public class Users_controller {
 
     @PutMapping("update/{id}")
     public ResponseEntity<Users_model> UpdateUser(@PathVariable String id, @RequestBody Users_model user) {
-        try {
-            if (service.findUserById(Long.valueOf(id)) != null) {
-                user.setId(Long.valueOf(id));
-                service.updateOrSave(service.findUserByName(user.getUsername()));
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        if (service.findUserById(Long.valueOf(id)) != null) {
+            user.setId(Long.valueOf(id));
+            service.updateOrSave(service.findUserByName(user.getUsername()));
+        }else{
+            throw new NotFoundException("lỗi rồi");
         }
+
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/user/save").toUriString());
         return ResponseEntity.created(uri).body(user);
     }

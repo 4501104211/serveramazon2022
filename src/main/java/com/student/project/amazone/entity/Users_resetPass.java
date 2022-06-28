@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "user_resetpass_model")
 @Data
-public class Users_resetPass {
+public class Users_resetPass extends DateAbstract {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)

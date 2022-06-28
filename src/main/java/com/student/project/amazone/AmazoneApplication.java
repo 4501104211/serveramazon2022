@@ -21,15 +21,6 @@ public class AmazoneApplication  {
     @Bean
     public CommandLineRunner commandLineRunner(Users_service servicer) {
         return args -> {
-//            Users_model adminAccount = new Users_model();
-//            adminAccount.setUsername("admin");
-//            adminAccount.setName("admin");
-//            adminAccount.setPassword("12345");
-//            adminAccount.setAdmin(true);
-//            adminAccount.setPhone("0335857134");
-//            adminAccount.setAddress("ABC");
-//
-//            servicer.updateOrSave(adminAccount);
         };
     }
 

@@ -6,8 +6,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Entity
@@ -31,8 +29,6 @@ public class cartItem extends DateAbstract {
     @JsonProperty("productPrice")
     private Long productPrice;
 
-    private Boolean active;
-
     public cartItem() {
 
     }
@@ -50,7 +46,6 @@ public class cartItem extends DateAbstract {
         this.productItem = item.productItem;
         this.quantityItemNumber = item.quantityItemNumber;
         this.productPrice = item.productPrice;
-        this.active = item.active;
     }
 
     public void update() {

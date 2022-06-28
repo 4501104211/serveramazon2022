@@ -104,7 +104,7 @@ public class Users_controller {
     public ResponseEntity<Users_model> UpdateUser(@PathVariable String id, @RequestBody Users_model user) {
         if (service.findUserById(Long.valueOf(id)) != null) {
             user.setId(Long.valueOf(id));
-            service.updateOrSave(service.findUserByName(user.getUsername()));
+            service.updateOrSave(user);
         }else{
             throw new NotFoundException("lỗi rồi");
         }

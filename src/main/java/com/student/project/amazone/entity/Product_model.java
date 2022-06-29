@@ -2,13 +2,12 @@ package com.student.project.amazone.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.student.project.amazone.dto.FileDB;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Date;
 
-import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.CascadeType.REFRESH;
+import static javax.persistence.CascadeType.REMOVE;
 import static javax.persistence.GenerationType.AUTO;
 
 @Entity
@@ -29,14 +28,15 @@ public class Product_model extends DateAbstract{
 
     private Long price;
 
-    @ManyToOne(cascade = PERSIST)
+    @ManyToOne(cascade = REFRESH)
     @JoinColumn(name = "cata_product")
     private Catagory_model catagory;
 
-    @ManyToOne(cascade = PERSIST)
+    @ManyToOne(cascade = REMOVE)
     @JsonIgnore
     @JoinColumn(name = "order_product")
     private orderItem_model orderItemModel;
+
 
 
     public Product_model() {

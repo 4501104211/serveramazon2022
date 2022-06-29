@@ -1,25 +1,28 @@
 package com.student.project.amazone.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
 
 @Data
 @MappedSuperclass
 public abstract class DateAbstract implements Serializable {
     private static final String MY_TIME_ZONE="Asia/Ho_Chi_Minh";
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern=" dd/MM/yyyy HH:mm:ss",timezone = MY_TIME_ZONE)
+    private static final String PATTERN = "dd/MM/yyyy'T'HH:mm:ss";
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern=PATTERN,timezone = MY_TIME_ZONE)
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "last_updated")
+    @JsonProperty("LastUpdated")
     private Date LastUpdated;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern=" dd/MM/yyyy HH:mm:ss",timezone = MY_TIME_ZONE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern=PATTERN,timezone = MY_TIME_ZONE)
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "create_at")
+    @JsonProperty("CreateAt")
     private Date CreateAt;
 
     @PrePersist

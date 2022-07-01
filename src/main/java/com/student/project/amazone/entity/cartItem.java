@@ -1,6 +1,7 @@
 package com.student.project.amazone.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -29,6 +30,11 @@ public class cartItem extends DateAbstract {
     @JsonProperty("productPrice")
     private Long productPrice;
 
+
+    @ManyToOne
+    @JsonBackReference
+    @JsonProperty("parentID")
+    private cartModel parentId;
     public cartItem() {
 
     }
@@ -48,11 +54,25 @@ public class cartItem extends DateAbstract {
         this.productPrice = item.productPrice;
     }
 
-    public void update() {
-        int quantity = this.quantityItemNumber + 1;
-        this.quantityItemNumber = quantity;
-        this.productPrice = productItem.getPrice() * quantity;
+    public void update(int qty) {
+        if(qty == 0){
+            int quantity = quantityItemNumber + 1;
+            this.quantityItemNumber = quantity;
+            this.productPrice = productItem.getPrice() * quantity;
+        }else{
+            this.quantityItemNumber = qty;
+            this.productPrice = productItem.getPrice() * qty;
+        }
     }
 
-
+    @Override
+    public String toString() {
+        return "cartItem{" +
+                "id=" + id +
+                ", productItem=" + productItem +
+                ", quantityItemNumber=" + quantityItemNumber +
+                ", productPrice=" + productPrice +
+                ", parentId=" + parentId +
+                '}';
+    }
 }

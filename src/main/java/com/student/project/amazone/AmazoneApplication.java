@@ -10,17 +10,25 @@ import org.springframework.context.annotation.Configuration;
 
 @SpringBootApplication
 @Configuration
-public class AmazoneApplication  {
+public class AmazoneApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(AmazoneApplication.class, args);
     }
 
 
-
     @Bean
     public CommandLineRunner commandLineRunner(Users_service servicer) {
         return args -> {
+//            Users_model adminAccount = new Users_model();
+//            adminAccount.setUsername("admin2");
+//            adminAccount.setName("admin2");
+//            adminAccount.setPassword("12345");
+//            adminAccount.setAdmin(true);
+//            adminAccount.setPhone("0335857134");
+//            adminAccount.setAddress("ABC");
+//
+//            servicer.updateOrSave(adminAccount);
         };
     }
 

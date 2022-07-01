@@ -2,8 +2,8 @@ package com.student.project.amazone.controller;
 
 
 import com.student.project.amazone.entity.Users_model;
+import com.student.project.amazone.service.Cart_service;
 import com.student.project.amazone.service.Users_service;
-import com.sun.jersey.api.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ import static com.student.project.amazone.CLIENT_URL.CLIENT_1;
 public class Users_controller {
 
     private final Users_service service;
-
+    private final Cart_service cartService;
 
     Map<Object, Object> respone = new HashMap<>();
 
@@ -83,31 +83,33 @@ public class Users_controller {
 
     @PostMapping("save")
     public ResponseEntity<Map<Object, Object>> saveUser(@RequestBody Users_model user) {
+        return getMapResponseEntity(user,"post");
+    }
+
+    @PutMapping("update/{id}")
+    public ResponseEntity<Map<Object, Object>> UpdateUser(@PathVariable String id, @RequestBody Users_model user) {
+        return getMapResponseEntity(user,"put");
+    }
+
+    private ResponseEntity<Map<Object, Object>> getMapResponseEntity(@RequestBody Users_model user,String type) {
         HttpStatus status = HttpStatus.OK;
-        System.out.println("Ok");
         try {
             Users_model.userDto userDto = new Users_model.userDto(service.registerUser(user));
+            //Sau khi đăng ký tạo 1 giỏ hàng cho người dùng
+
             respone.put("user", userDto);
-            respone.put("message", "Đăng ky thành công, xin chào " + userDto.getUsername());
+            if(type == "put"){
+                respone.put("message", "Cập nhật thành công, xin chào " + userDto.getUsername());
+            }else{
+                cartService.saveAfterRegister(userDto.getId());
+                respone.put("message", "Đăng ky thành công, xin chào " + userDto.getUsername());
+            }
+
         } catch (Exception ex) {
             ex.printStackTrace();
             respone.put("message", ex.getMessage());
             status = HttpStatus.CONFLICT;
         }
         return ResponseEntity.status(status).body(respone);
-    }
-
-    @PutMapping("update/{id}")
-    public ResponseEntity<Users_model> UpdateUser(@PathVariable String id, @RequestBody Users_model user) {
-        HttpStatus status = HttpStatus.OK;
-        try {
-            user.setId(Long.valueOf(id));
-            user = service.updateOrSave(user);
-        } catch (NotFoundException ex) {
-            status = HttpStatus.NOT_FOUND;
-            user = null;
-        }
-
-        return ResponseEntity.status(status).body(user);
     }
 }

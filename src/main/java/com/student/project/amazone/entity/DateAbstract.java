@@ -12,7 +12,7 @@ import java.util.Date;
 @MappedSuperclass
 public abstract class DateAbstract implements Serializable {
     private static final String MY_TIME_ZONE="Asia/Ho_Chi_Minh";
-    private static final String PATTERN = "dd/MM/yyyy'T'HH:mm:ss";
+    private static final String PATTERN = "dd/MM/yyyy HH:mm:ss";
     @JsonFormat(shape = JsonFormat.Shape.STRING,pattern=PATTERN,timezone = MY_TIME_ZONE)
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "last_updated")

@@ -4,10 +4,8 @@ import com.student.project.amazone.entity.cartItem;
 import com.student.project.amazone.entity.cartModel;
 import com.student.project.amazone.service.Cart_service;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -68,9 +66,10 @@ public class Cart_controller {
 
         String message = "Thêm thành công vào giỏ hàng";
 
+
         HttpStatus status = HttpStatus.OK;
         try {
-            cartData = service.save(item,Long.parseLong(userID));
+            cartData = service.saveAfterAddFromClient(item, Long.parseLong(userID));
             respone.put("uniqueItemInCart", cartData.getCartItem().size() + "");
             respone.put("cartData", cartData);
             respone.put("message", message);
@@ -83,11 +82,11 @@ public class Cart_controller {
     }
 
     @PatchMapping
-    public ResponseEntity<Map<Object, Object>> patch(@RequestParam String userID, @RequestParam String itemID, @RequestBody Map<Object, Object> fields) {
+    public ResponseEntity<Map<Object, Object>> patch(@RequestBody Map<Object, Object> fields) {
         String message = "Cập nhật thành công";
         HttpStatus status = HttpStatus.OK;
         try {
-            cartData = service.update(itemID, Long.valueOf(userID), fields);
+            cartData = service.update(fields);
             respone.put("uniqueItemInCart", cartData.getCartItem().size() + "");
             respone.put("cartData", cartData);
             respone.put("message", message);

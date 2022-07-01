@@ -1,5 +1,7 @@
 package com.student.project.amazone.service;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.student.project.amazone.entity.Users_model;
 import com.student.project.amazone.entity.cartItem;
 import com.student.project.amazone.entity.cartModel;
@@ -8,9 +10,7 @@ import com.student.project.amazone.repo.Cart_modelRepository;
 import com.sun.jersey.api.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ReflectionUtils;
 
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -37,7 +37,7 @@ public class Cart_implement implements Cart_service {
 
     @Override
     public cartModel cartByCartId(Long cartId) {
-        return cart_modelRepository.getById(cartId);
+        return cart_modelRepository.findById(cartId).get();
     }
 
     @Override
@@ -59,57 +59,58 @@ public class Cart_implement implements Cart_service {
     }
 
     @Override
-    public cartModel save(cartItem _newitem, Long userId) {
+    public cartModel saveAfterAddFromClient(cartItem _newitem, Long userId) {
         cartModel parentCart = cartByUserId(userId);
-
-        if (parentCart != null) {
-            cartItem cartitem = parentCart.getCartItem().stream()
-                    .filter(item ->
-                            _newitem.getProductItem().getId().equals(item.getProductItem().getId())
-                    )
-                    .findAny().orElse(null);
-            if (cartitem == null) {
-                parentCart.getCartItem().add(_newitem);
-            } else {
-                cartitem.update();
-                cartItemDtoRepository.save(cartitem);
-            }
+        cartItem getItem = parentCart.getCartItem().stream().filter(item ->
+                item.getProductItem().getId().equals(_newitem.getProductItem().getId())
+        ).findAny().orElse(null);
+        _newitem.setParentId(parentCart);
+        if (getItem != null) {
+            getItem.update(0);
+            cartItemDtoRepository.save(getItem);
         } else {
-            parentCart = new cartModel();
-            Users_model user = new Users_model();
-            user.setId(userId);
-
             parentCart.getCartItem().add(_newitem);
-            parentCart.setUserId(user);
         }
+
         Long totalAmount = parentCart.getCartItem().stream().map(cartItem::getProductPrice)
                 .reduce(0L, Long::sum);
         parentCart.setTotalPrice(totalAmount);
-        return cart_modelRepository.save(parentCart);
+
+        cartModel tests = cart_modelRepository.save(parentCart);
+        return tests;
     }
 
     @Override
-    public cartModel update(String itemId, Long userId, Map<Object, Object> fields) {
+    public cartModel saveAfterRegister(Long userId) {
+        cartModel newCart = new cartModel();
+        Users_model user = new Users_model();
+        user.setId(userId);
+        newCart.setUserId(user);
+        return cart_modelRepository.save(newCart);
+    }
+
+
+    @Override
+    public cartModel update(Map<Object, Object> fields) {
         try {
-            cartModel cartExist = cartByUserId(userId);
-            for (int i = 0; i < cartExist.getCartItem().size(); i++) {
-                final cartItem element = cartExist.getCartItem().get(i);
-                if (element.getId().equals(Long.valueOf(itemId))) {
-                    fields.forEach((key, value) -> {
-                        Field field = ReflectionUtils.findField(cartItem.class, (String) key);
-                        field.setAccessible(true);
-                        ReflectionUtils.setField(field, element, value);
-                    });
-                }
-                Long productPrice = element.getProductItem().getPrice() * element.getQuantityItemNumber();
-                element.setProductPrice(productPrice);
-                cartItemDtoRepository.save(element);
-            }
-            Long totalAmount = cartExist.getCartItem().stream().map(cartItem::getProductPrice)
+
+            Gson gson = new Gson();
+            JsonElement jsonElement = gson.toJsonTree(fields);
+            cartItem itemRequestUpdate = gson.fromJson(jsonElement, cartItem.class);
+
+            cartModel parentCart = cartByCartId(itemRequestUpdate.getParentId().getId());
+
+            parentCart.getCartItem().stream().filter(item ->
+                    item.getId().equals(itemRequestUpdate.getId())
+            ).forEach(item -> {
+                item.update(itemRequestUpdate.getQuantityItemNumber());
+            });
+            Long totalAmount = parentCart.getCartItem().stream().map(cartItem::getProductPrice)
                     .reduce(0L, Long::sum);
-            cartExist.setTotalPrice(totalAmount);
-            return cart_modelRepository.save(cartExist);
+            parentCart.setTotalPrice(totalAmount);
+            return cart_modelRepository.save(parentCart);
         } catch (Exception ex) {
+            ex.printStackTrace();
             throw new IllegalStateException("Có lỗi xảy ra ,vui lòng thử lại sau !");
         }
     }
@@ -121,7 +122,7 @@ public class Cart_implement implements Cart_service {
             if (inCartItem(cartModel)) {
 
                 List<cartItem> deletedItems = cartModel.getCartItem().stream()
-                        .filter(e -> itemId.contains(e.getProductItem().getId()))
+                        .filter(e -> itemId.contains(e.getId()))
                         .collect(Collectors.toList());
 
 
@@ -136,8 +137,8 @@ public class Cart_implement implements Cart_service {
                             .reduce(0L, Long::sum);
                     cartModel.setTotalPrice(totalAmount);
                 }
+                cartItemDtoRepository.deleteAll(deletedItems);
 
-                cartModel.getCartItem().removeAll(deletedItems);
             }
         } catch (Exception ex) {
             throw new IllegalStateException(ex.getMessage());
@@ -149,4 +150,6 @@ public class Cart_implement implements Cart_service {
         List<cartModel> cart = cart_modelRepository.findAll();
         return cart;
     }
+
+
 }

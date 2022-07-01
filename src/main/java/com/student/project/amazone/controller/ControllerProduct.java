@@ -1,15 +1,16 @@
 package com.student.project.amazone.controller;
 
-import com.student.project.amazone.File.UploadService.FileStorageService;
 import com.student.project.amazone.entity.Product_model;
 import com.student.project.amazone.service.ServiceProduct;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.student.project.amazone.CLIENT_URL.CLIENT_1;
 
@@ -21,34 +22,46 @@ import static com.student.project.amazone.CLIENT_URL.CLIENT_1;
 public class
 ControllerProduct {
 
-    @Autowired
     private final ServiceProduct serviceProduct;
-    @Autowired
-    private FileStorageService fileStorageService;
+
+    Map<Object, Object> RESPONE = new HashMap<>();
+    Product_model DATA = new Product_model();
+    List<Product_model> LIST_DATA = new ArrayList<>();
 
     @GetMapping("all")
     public ResponseEntity<List<Product_model>> findAllCategory() {
-        List<Product_model> cata = serviceProduct.findAll();
-        return new ResponseEntity<>(cata, HttpStatus.OK);
+        LIST_DATA = serviceProduct.findAll();
+        return new ResponseEntity<>(LIST_DATA, HttpStatus.OK);
     }
 
     @GetMapping("orderItem")
     public ResponseEntity<List<Product_model>> findProduct_modelByOrderId() {
-        List<Product_model> cata = serviceProduct.findProduct_modelByOrderId();
-        return new ResponseEntity<>(cata, HttpStatus.OK);
+        LIST_DATA = serviceProduct.findProduct_modelByOrderId();
+        return new ResponseEntity<>(LIST_DATA, HttpStatus.OK);
     }
 
 
     @GetMapping("category/{id}")
     public ResponseEntity<List<Product_model>> findProductByCateId(@PathVariable("id") String id) {
-        List<Product_model> cata = serviceProduct.findByCateId(Long.parseLong(id));
-        return new ResponseEntity<>(cata, HttpStatus.OK);
+        LIST_DATA = serviceProduct.findByCateId(Long.parseLong(id));
+        return new ResponseEntity<>(LIST_DATA, HttpStatus.OK);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Product_model> findProductById(@PathVariable("id") String id) {
-        Product_model cata = serviceProduct.findById(Long.parseLong(id)).get();
-        return new ResponseEntity<>(cata, HttpStatus.OK);
+    public ResponseEntity<Map<Object, Object>> findProductById(@PathVariable("id") String id) {
+        HttpStatus status = HttpStatus.OK;
+        try {
+            DATA = serviceProduct.findById(Long.parseLong(id)).get();
+            RESPONE.put("data", DATA);
+            RESPONE.put("isError", false);
+            RESPONE.put("message", "Lấy thành công dữ liệu");
+        } catch (Exception ex) {
+            DATA = null;
+            status = HttpStatus.NOT_FOUND;
+            RESPONE.put("isError", true);
+            RESPONE.put("message", "Không tìm thấy sản phẩm");
+        }
+        return ResponseEntity.status(status).body(RESPONE);
     }
 
     @GetMapping("search")

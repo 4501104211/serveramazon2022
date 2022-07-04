@@ -42,15 +42,19 @@ public class Cart_implement implements Cart_service {
 
     @Override
     public cartModel cartByUserId(Long userId) {
-        cartModel cartExist = cart_modelRepository.findCart_modelByUserId(userId);
+        cartModel cartExist = cart_modelRepository.findCartByUserId(userId);
         return cartExist;
     }
 
+    /**
+     * @param userId
+     * @return
+     */
     @Override
     public cartModel getByUserID(Long userId) {
         Users_model user = new Users_model();
         user.setId(userId);
-        cartModel cartExist = cart_modelRepository.findCart_modelByUserId(userId);
+        cartModel cartExist = cart_modelRepository.findCartByUserId(userId);
         if (cartExist != null) {
             return cartExist;
         } else {
@@ -81,11 +85,9 @@ public class Cart_implement implements Cart_service {
     }
 
     @Override
-    public cartModel saveAfterRegister(Long userId) {
+    public cartModel saveAfterRegister(Users_model userId) {
         cartModel newCart = new cartModel();
-        Users_model user = new Users_model();
-        user.setId(userId);
-        newCart.setUserId(user);
+        newCart.setUserId(userId);
         return cart_modelRepository.save(newCart);
     }
 
@@ -150,6 +152,7 @@ public class Cart_implement implements Cart_service {
         List<cartModel> cart = cart_modelRepository.findAll();
         return cart;
     }
+
 
 
 }

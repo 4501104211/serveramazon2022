@@ -1,5 +1,6 @@
 package com.student.project.amazone.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -26,6 +27,7 @@ public class cartModel extends DateAbstract {
     @OneToOne
     @JoinColumn(name = "FK_user_id")
     @JsonProperty("userId")
+    @JsonBackReference
     private Users_model userId;
 
     @JsonProperty("TotalPrice")

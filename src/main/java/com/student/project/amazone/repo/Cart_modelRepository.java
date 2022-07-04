@@ -7,7 +7,8 @@ import org.springframework.data.repository.query.Param;
 
 public interface Cart_modelRepository extends JpaRepository<cartModel, Long> {
 
-    @Query("FROM cartModel c where c.userId.id = :userId")
-    cartModel findCart_modelByUserId(@Param("userId") Long userId);
+    @Query(value="SELECT * FROM cart_model c where c.id  in (select fk_cart  from users_model um  where um.id = :userId)",nativeQuery = true)
+    cartModel findCartByUserId(@Param("userId") Long userId);
+
 
 }

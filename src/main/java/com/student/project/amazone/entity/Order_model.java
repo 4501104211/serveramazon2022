@@ -25,26 +25,11 @@ public class Order_model extends DateAbstract {
     @JsonProperty("orderItems")
     private List<orderItem_model> orderItems = new ArrayList<>();
 
-    @JsonProperty("fullname")
-    private String fullName;
-
     @JsonProperty("phoneNumber")
     private String phoneNumber;
 
-    @JsonProperty("city")
-    private String city;
-
-    @JsonProperty("wards")
-    private String wards;
-
-    @JsonProperty("district")
-    private String district;
-
     @JsonProperty("note")
     private String note;
-
-    @JsonProperty("address")
-    private String address;
 
     @JsonProperty("totalAmount")
     private Long totalAmount;

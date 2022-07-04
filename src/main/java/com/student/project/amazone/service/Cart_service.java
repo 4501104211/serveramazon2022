@@ -1,6 +1,7 @@
 package com.student.project.amazone.service;
 
 
+import com.student.project.amazone.entity.Users_model;
 import com.student.project.amazone.entity.cartItem;
 import com.student.project.amazone.entity.cartModel;
 
@@ -16,7 +17,7 @@ public interface Cart_service {
 
     cartModel saveAfterAddFromClient(cartItem newitem, Long userId);
 
-    cartModel saveAfterRegister(Long userId);
+    cartModel saveAfterRegister(Users_model userId);
 
     cartModel update(Map<Object, Object> fields);
 

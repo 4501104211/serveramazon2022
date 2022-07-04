@@ -2,6 +2,7 @@ package com.student.project.amazone.controller;
 
 
 import com.student.project.amazone.entity.Users_model;
+import com.student.project.amazone.entity.cartModel;
 import com.student.project.amazone.service.Cart_service;
 import com.student.project.amazone.service.Users_service;
 import lombok.RequiredArgsConstructor;
@@ -71,7 +72,7 @@ public class Users_controller {
         HttpStatus status = HttpStatus.OK;
         System.out.println("Ok");
         try {
-            Users_model.userDto userDto = new Users_model.userDto(service.isLoggedIn(user));
+            Users_model userDto = service.isLoggedIn(user);
             respone.put("user", userDto);
             respone.put("message", "Đăng nhập thành công, xin chào " + userDto.getUsername());
         } catch (NullPointerException ex) {
@@ -83,26 +84,27 @@ public class Users_controller {
 
     @PostMapping("save")
     public ResponseEntity<Map<Object, Object>> saveUser(@RequestBody Users_model user) {
-        return getMapResponseEntity(user,"post");
+        return getMapResponseEntity(user, "post");
     }
 
     @PutMapping("update/{id}")
     public ResponseEntity<Map<Object, Object>> UpdateUser(@PathVariable String id, @RequestBody Users_model user) {
-        return getMapResponseEntity(user,"put");
+        return getMapResponseEntity(user, "put");
     }
 
-    private ResponseEntity<Map<Object, Object>> getMapResponseEntity(@RequestBody Users_model user,String type) {
+    private ResponseEntity<Map<Object, Object>> getMapResponseEntity(@RequestBody Users_model user, String type) {
         HttpStatus status = HttpStatus.OK;
         try {
-            Users_model.userDto userDto = new Users_model.userDto(service.registerUser(user));
-            //Sau khi đăng ký tạo 1 giỏ hàng cho người dùng
-
-            respone.put("user", userDto);
-            if(type == "put"){
-                respone.put("message", "Cập nhật thành công, xin chào " + userDto.getUsername());
-            }else{
-                cartService.saveAfterRegister(userDto.getId());
-                respone.put("message", "Đăng ky thành công, xin chào " + userDto.getUsername());
+            if (type == "put") {
+                Users_model responeUser = service.registerUser(user);
+                respone.put("user", responeUser);
+                respone.put("message", "Cập nhật thành công, xin chào " + responeUser.getUsername());
+            } else {
+                cartModel cart = new cartModel();
+                user.setCart(cart);
+                Users_model responeUser = service.registerUser(user);
+//                cartService.saveAfterRegister(service.registerUser(user));
+                respone.put("message", "Đăng ky thành công, xin chào " + responeUser.getUsername());
             }
 
         } catch (Exception ex) {

@@ -1,16 +1,10 @@
 package com.student.project.amazone.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-
-import java.lang.String;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
+import javax.persistence.*;
 
 import static javax.persistence.GenerationType.AUTO;
 
@@ -29,6 +23,11 @@ public class Users_model extends DateAbstract {
     private boolean isAdmin;
     private boolean isBanned;
     private boolean isDeleted;
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "FK_cart ")
+    @JsonProperty("cart")
+    @JsonManagedReference
+    private cartModel cart = new cartModel();
 
     @Data
     public static class userDto {

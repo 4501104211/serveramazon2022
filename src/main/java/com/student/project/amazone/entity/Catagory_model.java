@@ -15,4 +15,5 @@ public class Catagory_model extends DateAbstract{
     @Column(name = "id", nullable = false)
     private Long id;
     private String name;
+    private String slogan;
 }

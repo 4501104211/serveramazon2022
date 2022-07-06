@@ -66,9 +66,21 @@ ControllerProduct_mn {
         Catagory_model cata = catagoryService.findUserById(emp.getCatagory().getId());
         emp.setImageurl(fileDownloadUri);
         emp.setCatagory(cata);
-        if (findProduct == null) {
-            return ResponseEntity.ok().body(serviceProduct.save(emp));
+
+
+
+        if (findProduct == null ) {
+            String slogan = emp.getName();
+            char ch = '-';
+            slogan = slogan.replace(' ', ch);
+            emp.setSlogan(slogan);
+                return ResponseEntity.ok().body(serviceProduct.save(emp));
+
         } else {
+            String slogan = emp.getName();
+            char ch = '-';
+            slogan = slogan.replace(' ', ch);
+            emp.setSlogan(slogan);
             emp.setCreateAt(findProduct.getCreateAt());
             return ResponseEntity.ok().body(serviceProduct.save(emp));
         }

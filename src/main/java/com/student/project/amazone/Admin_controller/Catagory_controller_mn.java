@@ -1,6 +1,7 @@
 package com.student.project.amazone.Admin_controller;
 
 import com.student.project.amazone.entity.Catagory_model;
+import com.student.project.amazone.entity.Product_model;
 import com.student.project.amazone.service.Catagory_service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,11 @@ public class Catagory_controller_mn {
 
     @PostMapping("save")
     public ResponseEntity<Catagory_model> saveProduct(@RequestBody Catagory_model catagory_model) {
-        return ResponseEntity.ok().body(service.saveCatagory(catagory_model));
+                String slogan = catagory_model.getName();
+                char ch = '-';
+                slogan = slogan.replace(' ', ch);
+                catagory_model.setSlogan(slogan);
+                return ResponseEntity.ok().body(service.saveCatagory(catagory_model));
     }
     @GetMapping("find/{id}")
     public ResponseEntity<Catagory_model> getCategory(@PathVariable("id") Long id) {
@@ -37,6 +42,10 @@ public class Catagory_controller_mn {
     }
     @PutMapping("update")
     public ResponseEntity<Catagory_model> updateCategory(@RequestBody Catagory_model cata) {
+        String slogan = cata.getName();
+        char ch = '-';
+        slogan = slogan.replace(' ', ch);
+        cata.setSlogan(slogan);
         Catagory_model updateCategory = service.updateCategory(cata);
         return new ResponseEntity<>(updateCategory, HttpStatus.OK);
     }

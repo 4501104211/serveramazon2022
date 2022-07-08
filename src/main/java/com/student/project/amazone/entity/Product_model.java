@@ -6,6 +6,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+import java.text.DecimalFormat;
+
 import static javax.persistence.CascadeType.REFRESH;
 import static javax.persistence.CascadeType.REMOVE;
 import static javax.persistence.GenerationType.AUTO;
@@ -20,6 +22,8 @@ public class Product_model extends DateAbstract{
     @GeneratedValue(strategy = AUTO)
     private Long id;
     private String name;
+
+    private String slogan;
 
     private String description;
 

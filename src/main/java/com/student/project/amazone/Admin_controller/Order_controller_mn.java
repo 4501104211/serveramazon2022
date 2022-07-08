@@ -5,7 +5,6 @@ import com.student.project.amazone.AbstractController.AbstractControllerOrder;
 import com.student.project.amazone.entity.Order_model;
 import com.student.project.amazone.service.Order_service;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +18,7 @@ import static com.student.project.amazone.CLIENT_URL.CLIENT_2;
 @RequiredArgsConstructor
 @CrossOrigin(origins = CLIENT_2)
 public class Order_controller_mn extends AbstractControllerOrder {
-    @Autowired
+
     private final Order_service service;
 
     @PostMapping

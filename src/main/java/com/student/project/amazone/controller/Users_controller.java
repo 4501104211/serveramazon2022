@@ -96,7 +96,9 @@ public class Users_controller {
         HttpStatus status = HttpStatus.OK;
         try {
             if (type == "put") {
-                Users_model responeUser = service.registerUser(user);
+                Users_model findUserByName = service.findUserById(user.getId());
+                user.setCreateAt(findUserByName.getCreateAt());
+                Users_model responeUser = service.updateOrSave(user);
                 respone.put("user", responeUser);
                 respone.put("message", "Cập nhật thành công, xin chào " + responeUser.getUsername());
             } else {

@@ -19,6 +19,9 @@ public class Users_model extends DateAbstract {
     private String username;
     private String password;
     private String address;
+//    private String city;
+//    private String district;
+//    private String ward;
     private String phone;
     private boolean isAdmin;
     private boolean isBanned;

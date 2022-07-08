@@ -33,12 +33,13 @@ public class Cart_controller {
             cartData = service.getByUserID(Long.parseLong(userID));
             respone.put("cartData", cartData);
             respone.put("isError", false);
+            respone.put("uniqueItemInCart", cartData.getCartItem().size());
             respone.put("message", "Lấy thành công dữ liệu");
         } catch (Exception ex) {
             status = HttpStatus.NOT_FOUND;
             ex.printStackTrace();
             respone.put("isError", true);
-            respone.put("message", "Không tìm thấy giỏ hàng");
+            respone.put("message", "Giỏ hàng trống không, hehe mua đi rồi thấy :v");
         }
         return ResponseEntity.status(status).body(respone);
     }
@@ -50,14 +51,11 @@ public class Cart_controller {
 
 
     @GetMapping("/mini")
-    public ResponseEntity<Map<String, String>> mapMini(@RequestParam String userID) {
-
-        Map<String, String> fields = new HashMap<>();
-
+    public ResponseEntity<Map<Object, Object>> mapMini(@RequestParam String userID) {
         cartModel cartModel = service.cartByUserId(Long.valueOf(userID));
 
-        fields.put("uniqueItemInCart", cartModel.getCartItem().size() + "");
-        return ResponseEntity.ok().body(fields);
+        respone.put("uniqueItemInCart", cartModel.getCartItem().size());
+        return ResponseEntity.ok().body(respone);
     }
 
 
@@ -70,7 +68,7 @@ public class Cart_controller {
         HttpStatus status = HttpStatus.OK;
         try {
             cartData = service.saveAfterAddFromClient(item, Long.parseLong(userID));
-            respone.put("uniqueItemInCart", cartData.getCartItem().size() + "");
+            respone.put("uniqueItemInCart", cartData.getCartItem().size());
             respone.put("cartData", cartData);
             respone.put("message", message);
         } catch (Exception ex) {
@@ -87,7 +85,7 @@ public class Cart_controller {
         HttpStatus status = HttpStatus.OK;
         try {
             cartData = service.update(fields);
-            respone.put("uniqueItemInCart", cartData.getCartItem().size() + "");
+            respone.put("uniqueItemInCart", cartData.getCartItem().size());
             respone.put("cartData", cartData);
             respone.put("message", message);
         } catch (Exception ex) {
@@ -107,7 +105,8 @@ public class Cart_controller {
             if (cartData.getCartItem().size() != 0) {
                 service.ItemDelete(valueOf(CartID), Itemid);
             }
-            respone.put("uniqueItemInCart", cartData.getCartItem().size() + "");
+            respone.put("cartData", cartData);
+            respone.put("uniqueItemInCart", cartData.getCartItem().size());
             respone.put("message", message);
         } catch (Exception ex) {
             message = ex.getMessage();

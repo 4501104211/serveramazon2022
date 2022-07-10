@@ -25,9 +25,6 @@ public class Order_model extends DateAbstract {
     @JsonProperty("orderItems")
     private List<orderItem_model> orderItems = new ArrayList<>();
 
-    @JsonProperty("phoneNumber")
-    private String phoneNumber;
-
     @JsonProperty("note")
     private String note;
 
@@ -39,6 +36,9 @@ public class Order_model extends DateAbstract {
 
     @JsonProperty("status")
     private int status;
+
+    @JsonProperty("orderType")
+    private String orderType;
 
     @OneToOne
     @JoinColumn(name = "FK_user_id")

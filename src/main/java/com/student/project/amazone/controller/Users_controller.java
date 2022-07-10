@@ -70,7 +70,6 @@ public class Users_controller {
     @PostMapping("login")
     public ResponseEntity<Map<Object, Object>> loginUsers(@RequestBody Users_model user) {
         HttpStatus status = HttpStatus.OK;
-        System.out.println("Ok");
         try {
             Users_model userDto = service.isLoggedIn(user);
             respone.put("user", userDto);

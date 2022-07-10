@@ -26,6 +26,7 @@ public class Order_controller extends AbstractControllerOrder {
 
     @PostMapping
     public ResponseEntity<Order_model> saveOrder(@RequestBody Order_model requestOrder) {
+        requestOrder.setStatus(1);
         Long totalAmount = requestOrder.getOrderItems().stream().map(ob -> ob.getProductPrice())
                 .reduce(0L, (a, b) -> a + b);
         requestOrder.setTotalAmount(totalAmount);
@@ -52,7 +53,6 @@ public class Order_controller extends AbstractControllerOrder {
     @Override
     public ResponseEntity<ChartOption> getValueIn12Month(String userId) {
         ChartOption chartOption = service.getValueIn12Month(Long.parseLong(userId));
-        System.out.println(chartOption.getJun());
         return ResponseEntity.ok().body(chartOption);
     }
 

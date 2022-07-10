@@ -38,7 +38,6 @@ public class Order_implement implements Order_service {
 
     @Override
     public List<Order_model> getTop4OrderByUserId(long userId) {
-        modelRepository.findTop3LastOrderByUserId(userId).forEach(item-> System.out.println(item.getCreateAt()));
         return modelRepository.findTop3LastOrderByUserId(userId);
     }
 
